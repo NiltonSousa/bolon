@@ -1,32 +1,18 @@
 package config
 
 import (
-	"database/sql"
 	"fmt"
 	"log"
-	"os"
 
-	"github.com/go-sql-driver/mysql"
+	"gorm.io/driver/sqlite"
+	"gorm.io/gorm"
 )
 
-func SQLOpenConnection() (*sql.DB, error) {
-	cfg := mysql.NewConfig()
-	cfg.User = os.Getenv("DB_USERNAME")
-	cfg.Passwd = os.Getenv("DB_PASSWORD")
-	cfg.Net = "tcp"
-	cfg.Addr = os.Getenv("DB_HOST")
-	cfg.DBName = os.Getenv("DB_NAME")
-
-	db, err := sql.Open("mysql", cfg.FormatDSN())
+func SQLOpenConnection() (*gorm.DB, error) {
+	db, err := gorm.Open(sqlite.Open("gorm.db"), &gorm.Config{})
 
 	if err != nil {
 		log.Fatal(err)
-	}
-
-	pingErr := db.Ping()
-
-	if pingErr != nil {
-		log.Fatal(pingErr)
 	}
 
 	fmt.Println("Connected!")

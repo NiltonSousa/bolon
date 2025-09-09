@@ -8,7 +8,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func SQLOpenConnection() (*gorm.DB, error) {
+func SQLOpenConnection() *gorm.DB {
 	db, err := gorm.Open(sqlite.Open("gorm.db"), &gorm.Config{})
 
 	if err != nil {
@@ -17,5 +17,5 @@ func SQLOpenConnection() (*gorm.DB, error) {
 
 	fmt.Println("Connected!")
 
-	return db, err
+	return db
 }
